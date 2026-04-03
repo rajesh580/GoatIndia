@@ -10,8 +10,10 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "node backend/server.js",
-    "build": "cd frontend && npm install && npm run build",
+    "build": "npm run install-all && npm run build-frontend",
+    "build-frontend": "cd frontend && npm run build",
     "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install",
     "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
   "keywords": ["ecommerce", "react", "nodejs", "express", "mysql"],
