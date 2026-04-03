@@ -2,6 +2,44 @@
 
 A full-stack e-commerce application built with React (frontend) and Node.js/Express (backend).
 
+## 🚀 Quick Deploy to Hostinger
+
+### Option 1: One-Click Git Import
+1. Go to Hostinger → Websites → Create Website
+2. Select "Import from Git"
+3. Connect your GitHub repository: `https://github.com/rajesh580/GoatIndia.git`
+4. Hostinger will automatically detect Node.js and deploy
+
+### Option 2: Manual Upload
+1. Build the application locally:
+   ```bash
+   npm run build
+   ```
+2. Upload the entire project to Hostinger via FTP
+3. Set the document root to the project folder
+
+### Hostinger Configuration
+- **Runtime**: Node.js 18+
+- **Entry Point**: `backend/server.js`
+- **Build Command**: `npm run build`
+- **Start Command**: `npm start`
+
+### Environment Variables (Set in Hostinger Dashboard)
+```env
+DB_HOST=your_hostinger_db_host
+DB_USER=your_db_username
+DB_PASSWORD=your_db_password
+DB_NAME=your_database_name
+JWT_SECRET=your_secret_key
+CLIENT_URL=https://yourdomain.hostinger.com
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
+RAZORPAY_KEY_ID=your_razorpay_key
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+PORT=8080
+NODE_ENV=production
+```
+
 ## Project Structure
 
 This is a monorepo containing:
