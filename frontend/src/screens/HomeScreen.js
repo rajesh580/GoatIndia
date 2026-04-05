@@ -33,8 +33,8 @@ const HomeScreen = () => {
   const [error, setError] = useState(false);
 
   const categories = [
-    { title: 'T-SHIRTS', path: '/collection/tshirts', img: 'https://placehold.co/400x600/111/FFF?text=T-SHIRTS' },
-    { title: 'HOODIES', path: '/collection/hoodies', img: 'https://placehold.co/400x600/111/FFF?text=HOODIES' },
+    { title: 'T-SHIRTS', path: '/collection/tshirts', img: '/images/Tshirt.png' },
+    { title: 'HOODIES', path: '/collection/hoodies', img: '/images/Hoodie.png' },
     { title: 'SWEATSHIRTS', path: '/collection/sweatshirts', img: 'https://placehold.co/400x600/111/FFF?text=SWEATSHIRTS' },
     { title: 'CROP TOPS', path: '/collection/croptops', img: 'https://placehold.co/400x600/111/FFF?text=CROP+TOPS' }
   ];
