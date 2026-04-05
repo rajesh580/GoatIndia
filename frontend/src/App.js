@@ -2,6 +2,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 // --- LAZY LOADED ROUTES FOR CODE SPLITTING ---
 const HomeScreen = lazy(() => import('./screens/HomeScreen'));
@@ -56,6 +57,7 @@ function App() {
           html.dark-mode .btn-place-order,
           html.dark-mode .cancel-alert,
           html.dark-mode .search-overlay,
+          html.dark-mode footer,
           html.dark-mode th,
           html.dark-mode .carousel,
           html.dark-mode [style*="background-color: rgb(0, 0, 0)"],
@@ -72,6 +74,7 @@ function App() {
           html.dark-mode .bg-dark img,
           html.dark-mode .carousel img,
           html.dark-mode .dark-theme-card img,
+          html.dark-mode footer img,
           html.dark-mode [style*="background-color: rgb(0, 0, 0)"] img,
           html.dark-mode [style*="background-color: #000"] img {
             filter: none !important;
@@ -228,6 +231,8 @@ function App() {
           </Routes>
         </Suspense>
       </main>
+
+      <Footer />
 
       {/* GLOBAL THEME TOGGLE BUTTON */}
       <button className="theme-toggle-btn" onClick={toggleTheme}>
