@@ -182,6 +182,12 @@ function App() {
             html.dark-mode .navbar-collapse { background-color: #000; border-color: #fff; box-shadow: 4px 4px 0px #fff; }
             .navbar-nav .nav-link { font-size: 14px !important; font-weight: 800 !important; margin-bottom: 10px; border-bottom: 1px dashed #eee; }
             html.dark-mode .navbar-nav .nav-link { border-bottom-color: #333; }
+            
+            /* Move theme toggle button up to avoid overlapping with mobile sticky carts */
+            .theme-toggle-btn {
+              bottom: 100px;
+              right: 20px;
+            }
           }
         `}
       </style>
