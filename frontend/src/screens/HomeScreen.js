@@ -165,7 +165,8 @@ const HomeScreen = () => {
           @media (max-width: 768px) {
             .carousel-caption { bottom: 20% !important; }
             .carousel-btn { padding: 12px 30px !important; font-size: 12px !important; }
-            .category-card { height: 120px !important; }
+            .category-card { height: 120px !important; border-width: 3px !important; box-shadow: 0 0 0 1px #fff !important; }
+            .product-wrapper { flex: 0 0 80vw !important; min-width: 260px !important; }
             .product-wrapper { flex: 0 0 80vw !important; min-width: 260px !important; }
             .section-header, .rec-header { font-size: 1.5rem !important; padding-left: 15px !important; }
             .marquee-container { padding: 8px 0; font-size: 9px; }
@@ -222,7 +223,7 @@ const HomeScreen = () => {
           {categories.map((cat) => (
             <Col key={cat.title} xs={3} sm={3} md={3} className="mb-4">
               <Link to={cat.path} style={{ textDecoration: 'none' }}>
-                <Card className="category-card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-lg" style={{ height: '350px', border: '2px solid #fff' }}>
+                <Card className="category-card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-lg" style={{ height: '350px', border: '4px solid #000', boxShadow: '0 0 0 2px #fff' }}>
                   <Card.Img src={cat.img} alt={cat.title} style={{ height: '100%', objectFit: 'cover', opacity: '0.5', transition: '0.8s' }} />
                 </Card>
                 <div className="category-title" style={{ color: '#000', fontWeight: '900', fontSize: '1.2rem', letterSpacing: '2px', marginTop: '15px', textTransform: 'uppercase' }}>
