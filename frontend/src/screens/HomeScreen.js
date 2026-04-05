@@ -165,12 +165,12 @@ const HomeScreen = () => {
           @media (max-width: 768px) {
             .carousel-caption { bottom: 20% !important; }
             .carousel-btn { padding: 12px 30px !important; font-size: 12px !important; }
-            .category-card { height: 200px !important; }
+            .category-card { height: 120px !important; }
             .product-wrapper { flex: 0 0 80vw !important; min-width: 260px !important; }
             .section-header, .rec-header { font-size: 1.5rem !important; padding-left: 15px !important; }
             .marquee-container { padding: 8px 0; font-size: 9px; }
             .hero-slide-container { height: 60vh !important; }
-            .category-title { font-size: 0.9rem !important; letter-spacing: 1px !important; text-align: center; }
+            .category-title { font-size: 0.6rem !important; letter-spacing: 0.5px !important; text-align: center; }
           }
         `}
       </style>
@@ -218,9 +218,9 @@ const HomeScreen = () => {
         
         {/* 2. CATEGORIES */}
         <h2 className="section-header">Shop Architecture</h2>
-        <Row className="mb-5 pb-5">
+        <Row className="mb-5 pb-5 gx-2 gx-md-4">
           {categories.map((cat) => (
-            <Col key={cat.title} xs={6} sm={6} md={3} className="mb-4">
+            <Col key={cat.title} xs={3} sm={3} md={3} className="mb-4">
               <Link to={cat.path} style={{ textDecoration: 'none' }}>
                 <Card className="category-card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-lg" style={{ height: '350px' }}>
                   <Card.Img src={cat.img} alt={cat.title} style={{ height: '100%', objectFit: 'cover', opacity: '0.5', transition: '0.8s' }} />
