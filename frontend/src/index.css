@@ -1,0 +1,36 @@
+/* --- 1. THEME & GLOBAL SYNC --- */
+.card {
+  border: none !important;
+  background: none !important; /* Forces the card to be transparent so our JS styles work */
+  background-color: transparent !important;
+  border-radius: 0;
+  transition: transform 0.3s ease;
+  box-shadow: none !important;
+}
+
+/* Ensure the hover effect doesn't break the background */
+.product-card-hover:hover {
+  transform: translateY(-5px);
+  /* Optional: subtle shadow that looks good on black */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+}
+/* Standard way for modern browsers (Chrome 121+, Firefox) */
+.hide-scrollbar {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  /* Remove -webkit-overflow-scrolling as modern Safari handles this now */
+}
+
+/* The "Webkit" way for Chrome, Safari, and Edge */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* --- 3. PRODUCT CARDS --- */
+.product-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
