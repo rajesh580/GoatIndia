@@ -187,6 +187,8 @@ function App() {
             .theme-toggle-btn {
               bottom: 100px;
               right: 20px;
+              padding: 8px 12px; /* Smaller padding for mobile */
+              font-size: 10px; /* Smaller font for mobile */
             }
           }
         `}

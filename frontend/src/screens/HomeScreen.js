@@ -185,7 +185,7 @@ const HomeScreen = () => {
                   <img className="d-block w-100" src={slide.image} alt={slide.title} style={{ height: '100%', objectFit: 'cover', opacity: '0.6' }} />
                   <Carousel.Caption style={{ bottom: '35%' }}>
                     <h1 style={{ fontWeight: '900', fontSize: 'clamp(2.5rem, 10vw, 5rem)', textTransform: 'uppercase', letterSpacing: '-2px', lineHeight: '0.9' }}>{slide.title}</h1>
-                    <Button variant="outline-light" className="carousel-btn mt-4 px-5 py-3 fw-bold border-3 rounded-0 letter-spacing-2">EXPLORE DROP</Button>
+                    <Button variant="outline-light" className="carousel-btn mt-4 px-5 py-3 fw-bold border-3 rounded-0 letter-spacing-2" style={{ borderColor: '#fff' }}>EXPLORE DROP</Button>
                   </Carousel.Caption>
                 </div>
               </Link>
@@ -222,7 +222,7 @@ const HomeScreen = () => {
           {categories.map((cat) => (
             <Col key={cat.title} xs={3} sm={3} md={3} className="mb-4">
               <Link to={cat.path} style={{ textDecoration: 'none' }}>
-                <Card className="category-card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-lg" style={{ height: '350px' }}>
+                <Card className="category-card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-lg" style={{ height: '350px', border: '2px solid #fff' }}>
                   <Card.Img src={cat.img} alt={cat.title} style={{ height: '100%', objectFit: 'cover', opacity: '0.5', transition: '0.8s' }} />
                 </Card>
                 <div className="category-title" style={{ color: '#000', fontWeight: '900', fontSize: '1.2rem', letterSpacing: '2px', marginTop: '15px', textTransform: 'uppercase' }}>

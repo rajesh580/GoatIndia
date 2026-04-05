@@ -20,7 +20,7 @@ const Product = ({ product, darkTheme = false }) => {
   // --- THEME DEFINITIONS ---
   const bgColor = darkTheme ? '#111' : '#fff'; 
   const textColor = darkTheme ? '#fff' : '#000';
-  const borderColor = darkTheme ? '#222' : '#eee';
+  const borderColor = darkTheme ? '#fff' : '#eee'; // White border in dark mode
   const btnBg = darkTheme ? '#fff' : '#000'; 
   const btnText = darkTheme ? '#000' : '#fff';
   const subText = darkTheme ? '#666' : '#aaa';
@@ -112,7 +112,7 @@ const Product = ({ product, darkTheme = false }) => {
           <button style={{ 
             backgroundColor: btnBg, 
             color: btnText, 
-            border: 'none', 
+            border: `2px solid ${darkTheme ? '#fff' : 'none'}`, // White border in dark mode
             padding: '12px', width: '100%', fontWeight: '800', textTransform: 'uppercase', 
             cursor: isOutOfStock ? 'not-allowed' : 'pointer', marginTop: 'auto'
           }} disabled={isOutOfStock}>
