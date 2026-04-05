@@ -9,7 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import axios from 'axios';
 
 // --- SET GLOBAL API BASE URL ---
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || '';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
