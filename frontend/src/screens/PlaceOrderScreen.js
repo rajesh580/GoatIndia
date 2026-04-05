@@ -174,6 +174,9 @@ const PlaceOrderScreen = () => {
             <div className="border-top pt-3 d-flex justify-content-between mb-4">
               <span className="h4 fw-black">TOTAL</span><span className="h4 fw-black">₹{totalPrice.toFixed(2)}</span>
             </div>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: '#ff4444', textAlign: 'center', marginBottom: '15px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              * Note: Orders cannot be cancelled once accepted by us.
+            </div>
             <Button className='btn-dark w-100 rounded-0 py-3 fw-bold' disabled={cartItems.length === 0} onClick={placeOrderHandler}>
               {isCOD ? 'Confirm COD Order' : 'Pay with Razorpay'}
             </Button>

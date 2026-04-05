@@ -150,6 +150,31 @@ const OrderDetailsScreen = () => {
               .receipt-card { position: absolute; left: 0; top: 0; width: 100%; border: none !important; margin: 0 !important; padding: 0 !important; }
               .print-hide { display: none !important; }
             }
+            @media (max-width: 768px) {
+              .py-5 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+              h2 { font-size: 1.4rem !important; }
+              .tracking-card { padding: 15px !important; margin-bottom: 20px !important; border-width: 2px !important; }
+              .tracking-status-text { font-size: 1rem !important; }
+              .tracking-step { font-size: 0.9rem !important; }
+              .section-title { font-size: 1rem !important; margin-bottom: 10px !important; border-bottom-width: 1px !important; }
+              .receipt-card { padding: 15px !important; border-width: 2px !important; margin-top: 20px !important; }
+              .receipt-card h2 { font-size: 1.1rem !important; margin-bottom: 15px !important; }
+              .receipt-total { font-size: 1.2rem !important; }
+              .manifest-name { font-size: 14px !important; }
+              .manifest-price { font-size: 14px !important; }
+              .btn-cancel { padding: 12px !important; font-size: 14px !important; min-height: 48px !important; }
+              .list-group-item { padding: 20px 0 !important; }
+              .modal-dialog { margin: 10px !important; max-width: calc(100vw - 20px) !important; }
+              .modal-content { border-width: 3px !important; }
+              .modal-body { padding: 20px !important; }
+              .modal-footer { padding: 0 20px 20px 20px !important; }
+              .modal-footer .btn { min-height: 44px !important; font-size: 14px !important; }
+              .tracking-progress { flex-direction: column !important; gap: 5px !important; height: 60px !important; }
+              .tracking-progress div { height: 8px !important; }
+              .cancel-alert { padding: 15px !important; }
+              .cancel-alert .fa-2x { font-size: 1.5rem !important; }
+              .image-fluid { max-width: 100% !important; height: auto !important; }
+            }
         `}
       </style>
 
@@ -162,18 +187,18 @@ const OrderDetailsScreen = () => {
 
       {/* --- MULTI-STAGE SHIPMENT TRACKING BAR --- */}
       {!order.isCancelled && (
-        <div style={{
+        <div className="tracking-card" style={{
           border: '3px solid #000',
           padding: '25px',
           marginBottom: '40px',
           backgroundColor: '#fff'
         }}>
-          <div className="d-flex justify-content-between align-items-center">
-            <div>
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+            <div className="mb-3 mb-md-0">
               <span style={{ fontSize: '10px', fontWeight: '900', letterSpacing: '2px', color: '#888', display: 'block' }}>
                 SHIPMENT TRACKING
               </span>
-              <h3 style={{ margin: '5px 0', fontWeight: '900', color: currentStatus.color }}>
+              <h3 className="tracking-status-text" style={{ margin: '5px 0', fontWeight: '900', color: currentStatus.color }}>
                 {currentStatus.icon} {currentStatus.label}
               </h3>
               {order.status === 4 && order.deliveredAt && (
@@ -182,13 +207,13 @@ const OrderDetailsScreen = () => {
                 </p>
               )}
             </div>
-            <div style={{ fontWeight: '900', fontSize: '1.2rem' }}>
+            <div className="tracking-step text-md-end" style={{ fontWeight: '900', fontSize: '1.2rem' }}>
               STEP {order.status} / 4
             </div>
           </div>
 
           {/* VISUAL PROGRESS BAR STEPS */}
-          <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+          <div className="tracking-progress" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
             {[0, 1, 2, 3, 4].map((step) => (
               <div
                 key={step}
@@ -207,7 +232,9 @@ const OrderDetailsScreen = () => {
       {order.isCancelled && (
         <Alert className="cancel-alert mb-5">
           <Row className="align-items-center">
-            <Col xs={1} className="text-center"><i className="fas fa-exclamation-triangle fa-2x"></i></Col>
+            <Col xs={2} sm={1} className="text-center">
+              <i className="fas fa-exclamation-triangle fa-2x"></i>
+            </Col>
             <Col>
               <div style={{ fontWeight: '900', fontSize: '1.1rem' }}>ORDER TERMINATED</div>
               <div style={{ fontSize: '0.9rem', opacity: '0.8' }}>REASON: {order.cancelReason.toUpperCase()}</div>
@@ -220,30 +247,32 @@ const OrderDetailsScreen = () => {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h3 style={sectionTitleStyle}>Shipping Log</h3>
+              <h3 className="section-title" style={sectionTitleStyle}>Shipping Log</h3>
               <p style={{ fontWeight: '700', margin: 0 }}>{userInfo.name.toUpperCase()}</p>
               <p className="text-muted">{shipping.address}, {shipping.city}, {shipping.postalCode}</p>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h3 style={sectionTitleStyle}>Payment Information</h3>
+              <h3 className="section-title" style={sectionTitleStyle}>Payment Information</h3>
               <p style={{ fontWeight: '700', margin: 0 }}>METHOD: {order.paymentMethod.toUpperCase()}</p>
               <p className="text-muted">Status: {order.isPaid ? 'CONFIRMED' : 'PENDING'}</p>
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h3 style={sectionTitleStyle}>Manifest</h3>
+              <h3 className="section-title" style={sectionTitleStyle}>Manifest</h3>
               {itemsList.map((item, index) => (
                 <Row key={index} className="align-items-center mb-3" style={{ borderBottom: '1px solid #f4f4f4', paddingBottom: '15px' }}>
-                  <Col xs={3} md={2}>
-                    <Image src={item.image} alt={item.name} fluid style={{ borderRadius: 0, border: '1px solid #eee' }} />
+                  <Col xs={12} md={2} className="text-center text-md-start mb-3 mb-md-0">
+                    <Image src={item.image} alt={item.name} fluid style={{ borderRadius: 0, border: '1px solid #eee', maxWidth: '80px', height: 'auto' }} />
                   </Col>
-                  <Col>
-                    <div style={{ fontWeight: '800', fontSize: '14px' }}>{item.name.toUpperCase()}</div>
+                  <Col xs={12} md={7}>
+                    <div className="manifest-name" style={{ fontWeight: '800', fontSize: '14px' }}>{item.name.toUpperCase()}</div>
                     <div className="text-muted small">QTY: {item.qty}</div>
                   </Col>
-                  <Col md={4} className="text-end" style={{ fontWeight: '700' }}>
-                    ₹{(item.qty * item.price).toFixed(2)}
+                  <Col xs={12} md={3} className="text-end text-md-end">
+                    <div className="manifest-price" style={{ fontWeight: '700' }}>
+                      ₹{(item.qty * item.price).toFixed(2)}
+                    </div>
                   </Col>
                 </Row>
               ))}
@@ -263,18 +292,23 @@ const OrderDetailsScreen = () => {
               <span style={{ color: '#28a745', fontWeight: '700' }}>FREE</span>
             </div>
             
-            <div style={{ borderTop: '2px solid #000', paddingTop: '15px', display: 'flex', justifyContent: 'space-between', fontSize: '1.5rem', fontWeight: '900' }}>
+            <div className="receipt-total" style={{ borderTop: '2px solid #000', paddingTop: '15px', display: 'flex', justifyContent: 'space-between', fontSize: '1.5rem', fontWeight: '900' }}>
               <span>TOTAL</span>
               <span>₹{order.totalPrice.toFixed(2)}</span>
             </div>
 
-            {!order.isCancelled && order.status < 2 && (
-              <Button 
-                className="btn-cancel w-100 mt-4 py-3" 
-                onClick={() => setShowCancelModal(true)}
-              >
-                Request Cancellation
-              </Button>
+            {!order.isCancelled && order.status < 1 && (
+              <>
+                <Button 
+                  className="btn-cancel w-100 mt-4 py-3" 
+                  onClick={() => setShowCancelModal(true)}
+                >
+                  Request Cancellation
+                </Button>
+                <div style={{ fontSize: '10px', fontWeight: '800', color: '#ff4444', textAlign: 'center', marginTop: '15px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  * Orders cannot be cancelled once accepted by us.
+                </div>
+              </>
             )}
           </Card>
         </Col>
@@ -298,11 +332,11 @@ const OrderDetailsScreen = () => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer style={{ border: 'none', padding: '0 30px 30px 30px' }}>
-          <Button variant="link" style={{ color: '#000', textDecoration: 'none', fontWeight: '700' }} onClick={() => setShowCancelModal(false)}>
+          <Button variant="link" style={{ color: '#000', textDecoration: 'none', fontWeight: '700', minHeight: '44px', padding: '12px 20px' }} onClick={() => setShowCancelModal(false)}>
             GO BACK
           </Button>
           <Button 
-            style={{ backgroundColor: '#000', border: 'none', borderRadius: 0, padding: '10px 25px', fontWeight: '800' }} 
+            style={{ backgroundColor: '#000', border: 'none', borderRadius: 0, padding: '12px 25px', fontWeight: '800', minHeight: '44px' }} 
             onClick={cancelOrderHandler} 
             disabled={cancelLoading}
           >

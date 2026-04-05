@@ -34,3 +34,39 @@
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
+
+/* --- MOBILE IMPROVEMENTS --- */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .container, .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .btn {
+    min-height: 44px; /* Touch target size */
+    font-size: 16px;
+  }
+  
+  .form-control {
+    font-size: 16px; /* Prevent zoom on iOS */
+    min-height: 44px;
+  }
+  
+  .card {
+    margin-bottom: 20px;
+  }
+  
+  .row {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+  
+  .row > [class*="col-"] {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
