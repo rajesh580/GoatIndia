@@ -85,7 +85,7 @@ const PlaceOrderScreen = () => {
       }, config);
 
       const options = {
-        key: "rzp_test_SMlGgERPqcopKV", 
+        key: "rzp_live_ScUgFLg52NBFjI", 
         amount: razorpayOrder.amount,
         currency: razorpayOrder.currency,
         name: "GOAT INDIA", 
