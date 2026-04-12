@@ -8,8 +8,10 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { HelmetProvider } from 'react-helmet-async';
 import axios from 'axios';
 
-// Set axios base URL
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+// Use an explicit API URL only when configured.
+// Otherwise keep requests relative so CRA proxy works in development
+// and same-origin requests work in production.
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || '';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

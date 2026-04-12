@@ -32,12 +32,32 @@ dotenv.config();
 // 3. Initialize app
 const app = express();
 
+const normalizeOrigin = (origin) => origin?.replace(/\/+$/, '');
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:3000',
+  'http://127.0.0.1:3000'
+]
+  .filter(Boolean)
+  .map(normalizeOrigin);
+
 // Security Headers
 app.use(helmet({ crossOriginResourcePolicy: false })); // Keeps local dev images working
 
 // 4. Middlewares
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    const normalizedOrigin = normalizeOrigin(origin);
+    if (allowedOrigins.includes(normalizedOrigin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
