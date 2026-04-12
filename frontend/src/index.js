@@ -8,8 +8,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { HelmetProvider } from 'react-helmet-async';
 import axios from 'axios';
 
-// --- SET GLOBAL API BASE URL ---
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || '';
+// Set axios base URL
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
