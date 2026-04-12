@@ -69,7 +69,7 @@ app.use(express.json());
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
-  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
   next();
 });
 
