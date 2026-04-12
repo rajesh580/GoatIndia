@@ -33,10 +33,10 @@ const HomeScreen = () => {
   const [error, setError] = useState(false);
 
   const categories = [
-    { title: 'T-SHIRTS', path: '/collection/tshirts', img: '/images/Tshirt.png' },
-    { title: 'HOODIES', path: '/collection/hoodies', img: '/images/Hoodie.png' },
-    { title: 'SWEATSHIRTS', path: '/collection/sweatshirts', img: 'https://placehold.co/400x600/111/FFF?text=SWEATSHIRTS' },
-    { title: 'CROP TOPS', path: '/collection/croptops', img: 'https://placehold.co/400x600/111/FFF?text=CROP+TOPS' }
+    { title: 'T-SHIRTS', path: '/collection/tshirts', img: '/images/Tshirt.avif' },
+    { title: 'HOODIES', path: '/collection/hoodies', img: '/images/Hoodie.avif' },
+    { title: 'SWEATSHIRTS', path: '/collection/sweatshirts', img: '/images/Sweatshirt.avif' },
+    { title: 'CROP TOPS', path: '/collection/croptops', img: '/images/Croptop.avif' }
   ];
 
   useEffect(() => {
@@ -223,8 +223,8 @@ const HomeScreen = () => {
           {categories.map((cat) => (
             <Col key={cat.title} xs={3} sm={3} md={3} className="mb-4">
               <Link to={cat.path} style={{ textDecoration: 'none' }}>
-                <Card className="category-card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-lg" style={{ height: '350px', border: '4px solid #000', boxShadow: '0 0 0 2px #fff' }}>
-                  <Card.Img src={cat.img} alt={cat.title} style={{ height: '100%', objectFit: 'cover', opacity: '0.5', transition: '0.8s' }} />
+                <Card className="category-card bg-dark text-white border-0 rounded-0 overflow-hidden shadow-lg" style={{ height: '400px', border: '4px solid #000', boxShadow: '0 0 0 2px #fff' }}>
+                  <Card.Img src={cat.img} alt={cat.title} style={{ height: '100%', objectFit: 'cover', opacity: '0.9', transition: '0.8s' }} />
                 </Card>
                 <div className="category-title" style={{ color: '#000', fontWeight: '900', fontSize: '1.2rem', letterSpacing: '2px', marginTop: '15px', textTransform: 'uppercase' }}>
                   {cat.title}
