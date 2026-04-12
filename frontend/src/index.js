@@ -18,7 +18,7 @@ root.render(
   <React.StrictMode>
     <HelmetProvider>
       {/* Use your Client ID here */}
-      <GoogleOAuthProvider clientId="908400990651-vd48kmr5g1kid6lfgocv1ju9ihfgf22v.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId="419864524696-jfi9851ie8eup6bgjs7b9s4qmdi12jh6.apps.googleusercontent.com">
         <CartProvider>
           <App />
         </CartProvider>
