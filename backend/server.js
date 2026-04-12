@@ -18,8 +18,6 @@ const Review = require('./models/Review');
 const Order = require('./models/Order');
 const OrderItem = require('./models/OrderItem');
 
-// 1.6 DEFINE ASSOCIATIONS (CRITICAL FOR REVIEWS & ORDERS)
-// Reviews Association
 Product.hasMany(Review, { foreignKey: 'productId', as: 'reviews' });
 Review.belongsTo(Product, { foreignKey: 'productId' });
 
