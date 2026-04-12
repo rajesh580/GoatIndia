@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card, Container } from 'react-bootstrap';
 import axios from 'axios';
@@ -20,6 +20,7 @@ const loadScript = (src) => {
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const { cartItems } = useContext(CartContext);
+  const [submitting, setSubmitting] = useState(false);
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   const shippingAddress = JSON.parse(localStorage.getItem('shippingAddress')) || {};
@@ -32,6 +33,12 @@ const PlaceOrderScreen = () => {
   const isCOD = paymentMethod.toUpperCase() === 'COD' || paymentMethod.toLowerCase() === 'cash on delivery';
 
   const placeOrderHandler = async () => {
+    if (submitting) {
+      return;
+    }
+
+    setSubmitting(true);
+
     const orderDataBase = {
       userEmail: userInfo.email,
       orderItems: cartItems.map(item => ({
@@ -64,12 +71,17 @@ const PlaceOrderScreen = () => {
         navigate(`/order/${data.id}`);
       } catch (error) {
         toast.error(error.response?.data?.message || 'Error placing COD order');
+        setSubmitting(false);
       }
       return; 
     }
 
     const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-    if (!res) { toast.error("Payment Gateway Initialization Failed."); return; }
+    if (!res) {
+      toast.error("Payment Gateway Initialization Failed.");
+      setSubmitting(false);
+      return;
+    }
 
     try {
       // 1. Create the pending order locally BEFORE opening Razorpay
@@ -109,22 +121,31 @@ const PlaceOrderScreen = () => {
             toast.error('Transaction Verification Failed.');
             // Even if frontend fails, the webhook will save the payment status!
             navigate(`/order/${createdOrder.id}`);
+          } finally {
+            setSubmitting(false);
           }
         },
         prefill: { name: userInfo.name || "Customer", email: userInfo.email },
         theme: { color: "#000000" }, 
+        modal: {
+          ondismiss: function () {
+            setSubmitting(false);
+          }
+        }
       };
 
       const paymentObject = new window.Razorpay(options);
       
       paymentObject.on('payment.failed', function (response){
         toast.error('Payment Failed or Cancelled.');
+        setSubmitting(false);
         navigate(`/order/${createdOrder.id}`);
       });
 
       paymentObject.open();
     } catch (error) {
       toast.error(error.response?.data?.message || 'Error initializing payment.');
+      setSubmitting(false);
     }
   };
 
@@ -152,7 +173,7 @@ const PlaceOrderScreen = () => {
               <span style={sectionLabelStyle}>Product Manifest</span>
               {cartItems.map((item, index) => (
                 <Row key={index} className="align-items-center py-3 border-bottom">
-                  <Col md={2}><Image src={item.image} alt={item.name} fluid /></Col>
+                  <Col md={2}><Image src={item.image || null} alt={item.name} fluid /></Col>
                   <Col md={6}>
                     <Link to={`/product/${item.id}`} className="text-dark fw-bold text-uppercase d-block">{item.name}</Link>
                     <div className="d-flex gap-3 mt-1">
@@ -178,8 +199,13 @@ const PlaceOrderScreen = () => {
             <div style={{ fontSize: '10px', fontWeight: '800', color: '#ff4444', textAlign: 'center', marginBottom: '15px', textTransform: 'uppercase', letterSpacing: '1px' }}>
               * Note: Orders cannot be cancelled once accepted by us.
             </div>
-            <Button className='btn-dark w-100 rounded-0 py-3 fw-bold' disabled={cartItems.length === 0} onClick={placeOrderHandler}>
-              {isCOD ? 'Confirm COD Order' : 'Pay with Razorpay'}
+            <Button
+              className="w-100 py-3 mt-2"
+              style={{ borderRadius: 0, backgroundColor: '#000', color: '#fff', fontWeight: '900', letterSpacing: '2px', textTransform: 'uppercase', border: 'none' }}
+              disabled={cartItems.length === 0 || submitting}
+              onClick={placeOrderHandler}
+            >
+              {submitting ? 'PROCESSING...' : (isCOD ? 'CONFIRM CASH ON DELIVERY' : 'PROCEED TO SECURE PAYMENT')}
             </Button>
           </Card>
         </Col>

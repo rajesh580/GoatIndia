@@ -25,7 +25,7 @@ const MyOrdersScreen = () => {
           },
         };
 
-        const { data } = await axios.get(`/api/orders/myorders`, config);
+        const { data } = await axios.get(`/api/orders/myorders?email=${encodeURIComponent(userInfo.email)}`, config);
         setOrders(data);
         setLoading(false);
       } catch (err) {
@@ -39,7 +39,8 @@ const MyOrdersScreen = () => {
     };
 
     fetchOrders();
-  }, [navigate, userInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, userInfo?.token]);
 
   // --- INLINE STYLE OBJECTS ---
   const titleStyle = {

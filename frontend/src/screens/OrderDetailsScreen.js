@@ -46,7 +46,8 @@ const OrderDetailsScreen = () => {
     } else {
       navigate('/login');
     }
-  }, [id, navigate, userInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, navigate, userInfo?.token]);
 
   const cancelOrderHandler = async () => {
     if (!cancelReason.trim()) {
@@ -237,7 +238,7 @@ const OrderDetailsScreen = () => {
             </Col>
             <Col>
               <div style={{ fontWeight: '900', fontSize: '1.1rem' }}>ORDER TERMINATED</div>
-              <div style={{ fontSize: '0.9rem', opacity: '0.8' }}>REASON: {order.cancelReason.toUpperCase()}</div>
+              <div style={{ fontSize: '0.9rem', opacity: '0.8' }}>REASON: {order.cancelReason?.toUpperCase() || 'NOT SPECIFIED'}</div>
             </Col>
           </Row>
         </Alert>
@@ -248,13 +249,13 @@ const OrderDetailsScreen = () => {
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h3 className="section-title" style={sectionTitleStyle}>Shipping Log</h3>
-              <p style={{ fontWeight: '700', margin: 0 }}>{userInfo.name.toUpperCase()}</p>
+              <p style={{ fontWeight: '700', margin: 0 }}>{userInfo?.name?.toUpperCase()}</p>
               <p className="text-muted">{shipping.address}, {shipping.city}, {shipping.postalCode}</p>
             </ListGroup.Item>
 
             <ListGroup.Item>
               <h3 className="section-title" style={sectionTitleStyle}>Payment Information</h3>
-              <p style={{ fontWeight: '700', margin: 0 }}>METHOD: {order.paymentMethod.toUpperCase()}</p>
+              <p style={{ fontWeight: '700', margin: 0 }}>METHOD: {order.paymentMethod?.toUpperCase() || 'UNKNOWN'}</p>
               <p className="text-muted">Status: {order.isPaid ? 'CONFIRMED' : 'PENDING'}</p>
             </ListGroup.Item>
 
@@ -266,7 +267,7 @@ const OrderDetailsScreen = () => {
                     <Image src={item.image} alt={item.name} fluid style={{ borderRadius: 0, border: '1px solid #eee', maxWidth: '80px', height: 'auto' }} />
                   </Col>
                   <Col xs={12} md={7}>
-                    <div className="manifest-name" style={{ fontWeight: '800', fontSize: '14px' }}>{item.name.toUpperCase()}</div>
+                    <div className="manifest-name" style={{ fontWeight: '800', fontSize: '14px' }}>{item.name?.toUpperCase()}</div>
                     <div className="text-muted small">QTY: {item.qty}</div>
                   </Col>
                   <Col xs={12} md={3} className="text-end text-md-end">

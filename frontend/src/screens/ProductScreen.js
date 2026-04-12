@@ -193,14 +193,14 @@ const ProductScreen = () => {
           {/* Desktop Magnifier */}
           <div className="mobile-hide" style={{ overflow: 'hidden', backgroundColor: '#f9f9f9', border: '1px solid #eee', position: 'relative', cursor: 'crosshair' }} onMouseEnter={() => setZoom(true)} onMouseLeave={() => setZoom(false)} onMouseMove={handleImageMove}>
             {discountPercent > 0 && !isOutOfStock && <div className="discount-tag">{discountPercent}% OFF</div>}
-            <div style={{ width: '100%', height: '650px', backgroundImage: `url(${product.image})`, backgroundSize: zoom ? '200%' : 'cover', backgroundPosition: zoom ? origin : 'center', backgroundRepeat: 'no-repeat', filter: isOutOfStock ? 'grayscale(100%)' : 'none', transition: zoom ? 'none' : 'background-size 0.3s ease' }} />
+            <div style={{ width: '100%', height: '650px', backgroundImage: product.image ? `url(${product.image})` : 'none', backgroundSize: zoom ? '200%' : 'cover', backgroundPosition: zoom ? origin : 'center', backgroundRepeat: 'no-repeat', filter: isOutOfStock ? 'grayscale(100%)' : 'none', transition: zoom ? 'none' : 'background-size 0.3s ease' }} />
           </div>
 
           {/* Mobile Swipe Gallery */}
           <div className="d-md-none mobile-gallery" style={{ position: 'relative', border: '1px solid #eee' }}>
             {discountPercent > 0 && !isOutOfStock && <div className="discount-tag">{discountPercent}% OFF</div>}
-            <div className="mobile-gallery-item"><Image src={product.image} alt={product.name} fluid className={isOutOfStock ? 'grayscale-img' : ''} style={{ minHeight: '400px', objectFit: 'cover' }} /></div>
-            <div className="mobile-gallery-item"><Image src={product.image} alt={`${product.name} Details`} fluid className={isOutOfStock ? 'grayscale-img' : ''} style={{ minHeight: '400px', objectFit: 'cover', transform: 'scaleX(-1)' }} /></div>
+            <div className="mobile-gallery-item"><Image src={product.image || null} alt={product.name} fluid className={isOutOfStock ? 'grayscale-img' : ''} style={{ minHeight: '400px', objectFit: 'cover' }} /></div>
+            <div className="mobile-gallery-item"><Image src={product.image || null} alt={`${product.name} Details`} fluid className={isOutOfStock ? 'grayscale-img' : ''} style={{ minHeight: '400px', objectFit: 'cover', transform: 'scaleX(-1)' }} /></div>
           </div>
         </Col>
 

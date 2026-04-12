@@ -15,7 +15,7 @@ const ProfileScreen = () => {
       const fetchMyOrders = async () => {
         try {
           const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
-          const { data } = await axios.get(`/api/orders/myorders`, config);
+          const { data } = await axios.get(`/api/orders/myorders?email=${encodeURIComponent(userInfo.email)}`, config);
           setOrders(data);
         } catch (error) {
           console.error("Error fetching orders", error);
@@ -23,7 +23,8 @@ const ProfileScreen = () => {
       };
       fetchMyOrders();
     }
-  }, [navigate, userInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, userInfo?.token]);
 
   // --- INLINE STYLE OBJECTS ---
   const sectionTitleStyle = {
@@ -92,7 +93,7 @@ const ProfileScreen = () => {
           <div style={profileBoxStyle}>
             <div style={{ marginBottom: '20px' }}>
               <label style={{ fontSize: '10px', fontWeight: '900', color: '#aaa', letterSpacing: '2px' }}>NAME</label>
-              <div style={{ fontSize: '18px', fontWeight: '800' }}>{userInfo?.name.toUpperCase()}</div>
+              <div style={{ fontSize: '18px', fontWeight: '800' }}>{userInfo?.name?.toUpperCase()}</div>
             </div>
             <div>
               <label style={{ fontSize: '10px', fontWeight: '900', color: '#aaa', letterSpacing: '2px' }}>EMAIL ID</label>
