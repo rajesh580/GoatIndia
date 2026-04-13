@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -48,13 +49,13 @@ const Footer = () => {
               gap: '15px',
               fontSize: '1.5rem'
             }}>
-              <a href="#" style={{ color: '#fff', textDecoration: 'none' }}>
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
                 <i className="fab fa-instagram"></i>
               </a>
-              <a href="#" style={{ color: '#fff', textDecoration: 'none' }}>
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
                 <i className="fab fa-twitter"></i>
               </a>
-              <a href="#" style={{ color: '#fff', textDecoration: 'none' }}>
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
                 <i className="fab fa-facebook"></i>
               </a>
             </div>
@@ -152,11 +153,26 @@ const Footer = () => {
             display: 'flex',
             gap: '20px',
             fontSize: '0.8rem',
-            opacity: '0.7'
+            opacity: '0.9',
+            fontWeight: '800',
+            textTransform: 'uppercase',
+            letterSpacing: '1px'
           }}>
-            <span style={{ cursor: 'pointer' }}>Privacy Policy</span>
-            <span style={{ cursor: 'pointer' }}>Terms of Service</span>
-            <span style={{ cursor: 'pointer' }}>Refund Policy</span>
+            <Link to="/privacy-policy" style={{ color: '#888', textDecoration: 'none', transition: 'color 0.2s' }} 
+                  onMouseEnter={(e) => e.target.style.color = '#fff'} 
+                  onMouseLeave={(e) => e.target.style.color = '#888'}>
+              Privacy Policy
+            </Link>
+            <Link to="/terms-of-service" style={{ color: '#888', textDecoration: 'none', transition: 'color 0.2s' }}
+                  onMouseEnter={(e) => e.target.style.color = '#fff'} 
+                  onMouseLeave={(e) => e.target.style.color = '#888'}>
+              Terms of Service
+            </Link>
+            <Link to="/refund-policy" style={{ color: '#888', textDecoration: 'none', transition: 'color 0.2s' }}
+                  onMouseEnter={(e) => e.target.style.color = '#fff'} 
+                  onMouseLeave={(e) => e.target.style.color = '#888'}>
+              Refund Policy
+            </Link>
           </div>
         </div>
       </div>

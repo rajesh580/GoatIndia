@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
-const ContactScreen = () => {
+const AboutScreen = () => {
   const blueprintStyle = {
     backgroundColor: '#f9f9f9',
     backgroundImage: 'linear-gradient(to right, #e8e8e8 1px, transparent 1px), linear-gradient(to bottom, #e8e8e8 1px, transparent 1px)',
@@ -22,17 +22,17 @@ const ContactScreen = () => {
     <div style={blueprintStyle}>
       <Container style={{ maxWidth: '800px' }}>
         <div style={contentCardStyle}>
-          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '-2px', borderBottom: '4px solid #000', paddingBottom: '10px', marginBottom: '30px' }}>Contact Comms</h1>
+          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '-2px', borderBottom: '4px solid #000', paddingBottom: '10px', marginBottom: '30px' }}>About GOAT INDIA</h1>
           <p style={{ fontSize: '15px', fontWeight: '500', color: '#333', lineHeight: '1.6', marginBottom: '15px' }}>
-            For support, orders, and inquiries, establish a connection at: <br/><br/>
-            <strong>EMAIL:</strong> support@goatindia.com<br/>
-            <strong>INSTAGRAM:</strong> @goatindia
+            GOAT INDIA is an architectural streetwear project designed in Bharat. We focus on premium heavyweight materials, brutalist aesthetics, and oversized silhouettes for the modern individual.
           </p>
-          <Button variant="dark" style={{ borderRadius: 0, padding: '15px 30px', fontWeight: '900', letterSpacing: '2px', border: '2px solid #000', marginTop: '20px' }}>TRANSMIT MESSAGE</Button>
+          <div style={{ marginTop: '40px', borderTop: '2px dashed #000', paddingTop: '20px', textAlign: 'center' }}>
+            <span style={{ fontWeight: '900', fontSize: '12px', letterSpacing: '2px' }}>[ END OF TRANSMISSION ]</span>
+          </div>
         </div>
       </Container>
     </div>
   );
 };
 
-export default ContactScreen;
+export default AboutScreen;

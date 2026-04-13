@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import PrivacyPolicyScreen from './screens/PrivacyPolicyScreen';
+import TermsOfServiceScreen from './screens/TermsOfServiceScreen';
+import RefundPolicyScreen from './screens/RefundPolicyScreen';
+
 
 // --- LAZY LOADED ROUTES FOR CODE SPLITTING ---
 const HomeScreen = lazy(() => import('./screens/HomeScreen'));
@@ -228,6 +232,10 @@ function App() {
             <Route path='/order/:id' element={<OrderDetailsScreen />} />
             <Route path='/500' element={<ServerErrorScreen />} />
             <Route path='*' element={<NotFoundScreen />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyScreen />} />
+            <Route path="/terms-of-service" element={<TermsOfServiceScreen />} />
+            <Route path="/refund-policy" element={<RefundPolicyScreen />} />
+
           </Routes>
         </Suspense>
       </main>
