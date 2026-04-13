@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const Review = require('../models/Review');
+const User = require('../models/User');
 const { Op } = require('sequelize');
 
 // 1. Get all products (with optional category filter)
@@ -56,7 +57,7 @@ const getProductById = async (req, res) => {
 // 3. Create a product
 const createProduct = async (req, res) => {
   try {
-    const { name, price, originalPrice, description, category, image, countInStock } = req.body;
+    const { name, price, originalPrice, description, category, image, images, countInStock } = req.body;
     const product = await Product.create({
       name,
       price: parseFloat(price),
@@ -64,6 +65,7 @@ const createProduct = async (req, res) => {
       description: description || "Premium Collection",
       category: category || "Apparel",
       image: image || "/images/placeholder.jpg",
+      images: images || [],
       countInStock: countInStock || 10
     });
     res.status(201).json(product);
@@ -101,6 +103,12 @@ const createProductReview = async (req, res) => {
   const productId = req.params.id;
 
   try {
+    // Check if the user actually exists in the database
+    const userExists = await User.findByPk(userId);
+    if (!userExists) {
+      return res.status(404).json({ message: 'User account not found. Please log out and log back in to sync your session.' });
+    }
+
     const review = await Review.create({
       rating: Number(rating),
       comment,

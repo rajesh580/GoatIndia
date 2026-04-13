@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Row, Col, Image, Button, Form, Container, ListGroup, Modal, Table } from 'react-bootstrap';
+import { Row, Col, Image, Button, Form, Container, ListGroup, Modal, Table, Carousel } from 'react-bootstrap';
 import axios from 'axios';
 import { CartContext } from '../context/CartContext';
 import toast from 'react-hot-toast';
@@ -34,8 +34,7 @@ const ProductScreen = () => {
   const [comment, setComment] = useState('');
   const [added, setAdded] = useState(false);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
-  const [zoom, setZoom] = useState(false);
-  const [origin, setOrigin] = useState('center center');
+  const [selectedImage, setSelectedImage] = useState('');
 
   const { addToCart, cartItems } = useContext(CartContext);
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
@@ -61,6 +60,7 @@ const ProductScreen = () => {
       try {
         const { data: productData } = await axios.get(`/api/products/${id}`);
         setProduct(productData);
+        setSelectedImage(productData.image);
         const { data: reviewData } = await axios.get(`/api/products/${id}/reviews`);
         setReviews(reviewData);
       } catch (error) {
@@ -111,14 +111,22 @@ const ProductScreen = () => {
     minHeight: '100vh'
   };
 
-  // --- BRUTALIST MICRO-INTERACTIONS ---
-  const handleImageMove = (e) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - left) / width) * 100;
-    const y = ((e.clientY - top) / height) * 100;
-    setOrigin(`${x}% ${y}%`);
-  };
+  // Foolproof image extractor (handles Arrays, valid JSON, and raw comma-separated strings/URLs)
+  let additionalImages = [];
+  if (Array.isArray(product.images)) {
+    additionalImages = product.images;
+  } else if (typeof product.images === 'string' && product.images.trim() !== '') {
+    try {
+      additionalImages = JSON.parse(product.images);
+      if (!Array.isArray(additionalImages)) additionalImages = [additionalImages];
+    } catch (e) {
+        const urlRegex = /(data:image\/[^;]+;base64,[a-zA-Z0-9+/=]+|https?:\/\/[^"'\s,[\]]+)/g;
+      additionalImages = product.images.match(urlRegex) || [];
+    }
+  }
+  const allImages = product.image ? [...new Set([product.image, ...additionalImages])] : [];
 
+  // --- BRUTALIST MICRO-INTERACTIONS ---
   const magneticMove = (e) => {
     const btn = e.currentTarget;
     const rect = btn.getBoundingClientRect();
@@ -131,6 +139,18 @@ const ProductScreen = () => {
   const shareDrop = () => {
     navigator.clipboard.writeText(window.location.href);
     toast.success('LINK TRANSMITTED TO CLIPBOARD', { style: toastStyle });
+  };
+
+  const handlePrevImage = () => {
+    const currentIndex = allImages.indexOf(selectedImage);
+    const prevIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+    setSelectedImage(allImages[prevIndex]);
+  };
+
+  const handleNextImage = () => {
+    const currentIndex = allImages.indexOf(selectedImage);
+    const nextIndex = (currentIndex + 1) % allImages.length;
+    setSelectedImage(allImages[nextIndex]);
   };
 
   return (
@@ -176,6 +196,8 @@ const ProductScreen = () => {
             .mobile-gallery::-webkit-scrollbar { display: none; }
             .mobile-gallery-item { flex: 0 0 100%; scroll-snap-align: center; }
           }
+          .carousel-indicators [data-bs-target] { background-color: #000; width: 8px; height: 8px; border-radius: 50%; border: 1px solid #fff; }
+          .carousel-control-prev-icon, .carousel-control-next-icon { filter: invert(1); }
           @keyframes pulseBadge { 0% { box-shadow: 0 0 0 0 rgba(0,0,0, 0.5); } 70% { box-shadow: 0 0 0 8px rgba(0,0,0, 0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0, 0); } }
         `}
       </style>
@@ -189,18 +211,61 @@ const ProductScreen = () => {
       <button onClick={() => navigate(-1)} className="back-btn">← Back to Drop</button>
 
       <Row>
-        <Col lg={7} md={6} className="mb-5">
-          {/* Desktop Magnifier */}
-          <div className="mobile-hide" style={{ overflow: 'hidden', backgroundColor: '#f9f9f9', border: '1px solid #eee', position: 'relative', cursor: 'crosshair' }} onMouseEnter={() => setZoom(true)} onMouseLeave={() => setZoom(false)} onMouseMove={handleImageMove}>
-            {discountPercent > 0 && !isOutOfStock && <div className="discount-tag">{discountPercent}% OFF</div>}
-            <div style={{ width: '100%', height: '650px', backgroundImage: product.image ? `url(${product.image})` : 'none', backgroundSize: zoom ? '200%' : 'cover', backgroundPosition: zoom ? origin : 'center', backgroundRepeat: 'no-repeat', filter: isOutOfStock ? 'grayscale(100%)' : 'none', transition: zoom ? 'none' : 'background-size 0.3s ease' }} />
+        <Col lg={7} md={6} className="mb-5 d-flex flex-column flex-md-row gap-3">
+          {/* Thumbnails (Desktop) */}
+          <div className="mobile-hide d-flex flex-md-column gap-2" style={{ width: '80px', overflowY: 'auto', maxHeight: '650px', msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
+            {allImages.map((img, idx) => (
+              <Image 
+                key={idx} 
+                src={img} 
+                alt={`${product.name} ${idx}`} 
+                style={{ width: '80px', height: '80px', objectFit: 'cover', border: selectedImage === img ? '2px solid #000' : '1px solid #ddd', cursor: 'pointer', transition: '0.2s' }}
+                onClick={() => setSelectedImage(img)}
+              />
+            ))}
           </div>
+          
+          <div className="flex-grow-1">
+            {/* Desktop Main Image */}
+            <div className="mobile-hide" style={{ overflow: 'hidden', backgroundColor: '#f9f9f9', border: '1px solid #eee', position: 'relative' }}>
+              {discountPercent > 0 && !isOutOfStock && <div className="discount-tag">{discountPercent}% OFF</div>}
+              <div style={{ width: '100%', height: '650px', backgroundImage: selectedImage ? `url(${selectedImage})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', filter: isOutOfStock ? 'grayscale(100%)' : 'none' }} />
+              
+              {allImages.length > 1 && (
+                <>
+                  <Button 
+                    variant="light" 
+                    onClick={handlePrevImage} 
+                    style={{ position: 'absolute', top: '50%', left: '20px', transform: 'translateY(-50%)', borderRadius: '0', width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid #000', fontWeight: '900', fontSize: '20px', padding: 0, transition: '0.2s', boxShadow: '4px 4px 0px #000', color: '#000', zIndex: 10 }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-50%) translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '6px 6px 0px #000'; e.currentTarget.style.backgroundColor = '#000'; e.currentTarget.style.color = '#fff'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(-50%)'; e.currentTarget.style.boxShadow = '4px 4px 0px #000'; e.currentTarget.style.backgroundColor = '#f8f9fa'; e.currentTarget.style.color = '#000'; }}
+                  >
+                    ←
+                  </Button>
+                  <Button 
+                    variant="light" 
+                    onClick={handleNextImage} 
+                    style={{ position: 'absolute', top: '50%', right: '20px', transform: 'translateY(-50%)', borderRadius: '0', width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid #000', fontWeight: '900', fontSize: '20px', padding: 0, transition: '0.2s', boxShadow: '4px 4px 0px #000', color: '#000', zIndex: 10 }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-50%) translate(-2px, -2px)'; e.currentTarget.style.boxShadow = '6px 6px 0px #000'; e.currentTarget.style.backgroundColor = '#000'; e.currentTarget.style.color = '#fff'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(-50%)'; e.currentTarget.style.boxShadow = '4px 4px 0px #000'; e.currentTarget.style.backgroundColor = '#f8f9fa'; e.currentTarget.style.color = '#000'; }}
+                  >
+                    →
+                  </Button>
+                </>
+              )}
+            </div>
 
-          {/* Mobile Swipe Gallery */}
-          <div className="d-md-none mobile-gallery" style={{ position: 'relative', border: '1px solid #eee' }}>
-            {discountPercent > 0 && !isOutOfStock && <div className="discount-tag">{discountPercent}% OFF</div>}
-            <div className="mobile-gallery-item"><Image src={product.image || null} alt={product.name} fluid className={isOutOfStock ? 'grayscale-img' : ''} style={{ minHeight: '400px', objectFit: 'cover' }} /></div>
-            <div className="mobile-gallery-item"><Image src={product.image || null} alt={`${product.name} Details`} fluid className={isOutOfStock ? 'grayscale-img' : ''} style={{ minHeight: '400px', objectFit: 'cover', transform: 'scaleX(-1)' }} /></div>
+            {/* Mobile Swipe Gallery */}
+            <div className="d-md-none" style={{ position: 'relative', border: '1px solid #eee' }}>
+              {discountPercent > 0 && !isOutOfStock && <div className="discount-tag">{discountPercent}% OFF</div>}
+              <Carousel interval={null} indicators={true} controls={allImages.length > 1}>
+                {allImages.map((img, idx) => (
+                  <Carousel.Item key={idx}>
+                    <Image src={img} alt={`${product.name} ${idx}`} fluid className={isOutOfStock ? 'grayscale-img' : ''} style={{ minHeight: '400px', width: '100%', objectFit: 'cover' }} />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            </div>
           </div>
         </Col>
 

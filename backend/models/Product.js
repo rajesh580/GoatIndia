@@ -12,8 +12,24 @@ const Product = sequelize.define('Product', {
     allowNull: false 
   },
   image: { 
-    type: DataTypes.STRING, 
+    type: DataTypes.TEXT('long'), 
     allowNull: false 
+  },
+  images: {
+    type: DataTypes.TEXT('long'),
+    allowNull: true,
+    get() {
+      const rawValue = this.getDataValue('images');
+      if (!rawValue) return [];
+      try {
+        return typeof rawValue === 'string' ? JSON.parse(rawValue) : rawValue;
+      } catch (error) {
+        return rawValue; // Return the raw text if JSON fails so the frontend can extract the links!
+      }
+    },
+    set(value) {
+      this.setDataValue('images', JSON.stringify(value || []));
+    }
   },
   description: { 
     type: DataTypes.TEXT, 
@@ -39,6 +55,10 @@ const Product = sequelize.define('Product', {
     type: DataTypes.INTEGER, 
     allowNull: false,
     defaultValue: 0
+  },
+  isRecommended: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 });
 

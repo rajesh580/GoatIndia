@@ -130,6 +130,9 @@ const PlaceOrderScreen = () => {
         modal: {
           ondismiss: function () {
             setSubmitting(false);
+            toast.error('Payment cancelled. Order saved as pending.');
+            localStorage.removeItem('cartItems');
+            navigate(`/order/${createdOrder.id}`);
           }
         }
       };

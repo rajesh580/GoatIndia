@@ -112,12 +112,15 @@ process.on('unhandledRejection', (reason, promise) => {
 // 7. Database Sync & Server Start
 // Removed { alter: true } to prevent ER_TOO_MANY_KEYS indexing bug on server restarts
 console.log('Starting database sync...');
-sequelize.sync()
-  .then(() => {
+
+// Safely alter ONLY the Product table to add the 'images' column
+Product.sync({ alter: true }).then(() => {
+  sequelize.sync()
+    .then(() => {
     console.log('MySQL Database & Tables synced for GOAT INDIA');
     
     const PORT = process.env.PORT || 5000;
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`Server is listening and ready to accept connections`);
     });
@@ -142,3 +145,4 @@ sequelize.sync()
     console.error('Error details:', err.message);
     process.exit(1); 
   });
+});
